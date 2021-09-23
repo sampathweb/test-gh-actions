@@ -18,12 +18,17 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
+      - name: Get PR and assignee information
+        run: |
+          echo '::set-output name=assignees::sampathweb'
+          echo '::set-output name=number::sed -rn 's/.*ROLLBACK_PR=([^]]+).*/\1/p' <<<${{ github.event.head_commit.message }}'
+        id: pr-data
       - uses: JasonEtco/create-an-issue@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           filename: .github/issue-template.md
-          assignees: sampathweb
+          assignees: ${{ steps.random-color-generator.outputs.assignees }}"
         id: create-issue
       - run: |
           echo "${{toJSON(github.event)}}"
