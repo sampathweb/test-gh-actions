@@ -36,7 +36,7 @@ jobs:
           ROLLBACK_COMMIT: ${{ github.event.head_commit.id }}
         with:
           filename: .github/issue-template.md
-          assignees: ${{ steps.pr-data.outputs.assignees }}"
+          assignees: ${{ steps.pr-data.outputs.assignees }}
         id: create-issue
       - run: |
           echo "${{toJSON(github.event)}}"
