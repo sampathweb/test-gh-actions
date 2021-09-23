@@ -24,12 +24,12 @@ jobs:
           echo "::set-output name=ip-address::$(curl -s ifconfig.me)"
           echo '::set-output name=PR_NUMBER2::$(sed -rn "s/.*ROLLBACK_PR=([^]]+).*/\1/p" <<<"Test [ROLLBACK_PR=3333]adfadf")'
           echo '::set-output name=PR_NUMBER3::$(echo 1234)'
-          PR_NUMBER1=$(sed -rn "s/.*ROLLBACK_PR=([^]]+).*/\1/p" <<<"Test [ROLLBACK_PR=3333]adfadf")
-          echo 'PR_NUMBER=$(sed -rn "s/.*ROLLBACK_PR=([^]]+).*/\1/p" <<<"Test [ROLLBACK_PR=1234]adfadf")'
+          echo '::set-output name=MESSAGE::$(echo ${{ github.event.head_commit.message }}'
+          echo '::set-output name=PR_NUMBER::$(echo ${{ github.event.head_commit.message }} | tr "\n" "\r" | sed -rne "s/.*ROLLBACK_PR=([^]]+).*/\1/p")'
         id: pr-data
       - run: |
-          echo PR ${{ env.PR_NUMBER }}
-          echo PR1 ${{ env.PR_NUMBER1 }}
+          echo PR2 ${{ steps.pr-data.outputs.PR_NUMBER }}
+          echo PR2 ${{ steps.pr-data.outputs.MESSAGE }}
           echo PR2 ${{ steps.pr-data.outputs.PR_NUMBER2 }}
           echo PR3 ${{ steps.pr-data.outputs.PR_NUMBER3 }}
           echo Assignee ${{ steps.pr-data.outputs.assignees }}
