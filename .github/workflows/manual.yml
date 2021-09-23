@@ -30,8 +30,8 @@ jobs:
       - run: |
           echo PR ${{ env.PR_NUMBER }}
           echo PR1 ${{ env.PR_NUMBER1 }}
-          echo PR2 ${{ teps.pr-data.outputs.PR_NUMBER2 }}
-          echo PR3 ${{ teps.pr-data.outputs.PR_NUMBER3 }}
+          echo PR2 ${{ steps.pr-data.outputs.PR_NUMBER2 }}
+          echo PR3 ${{ steps.pr-data.outputs.PR_NUMBER3 }}
           echo Assignee ${{ steps.pr-data.outputs.assignees }}
           echo IP Address ${{ steps.pr-data.outputs.ip-address }}
 
@@ -48,7 +48,7 @@ jobs:
           echo "${{toJSON(github.event)}}"
           echo Created issue number ${{ steps.create-issue.outputs.number }}
           echo Created ${{ steps.create-issue.outputs.url }}
-          echo PR2 ${{ teps.pr-data.outputs.PR_NUMBER2 }}
-          echo PR3 ${{ teps.pr-data.outputs.PR_NUMBER3 }}
+          echo PR2 ${{ steps.pr-data.outputs.PR_NUMBER2 }}
+          echo PR3 ${{ steps.pr-data.outputs.PR_NUMBER3 }}
           echo Assignee ${{ steps.pr-data.outputs.assignees }}
           echo IP Address ${{ steps.pr-data.outputs.ip-address }}
