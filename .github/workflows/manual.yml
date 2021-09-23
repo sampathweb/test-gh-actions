@@ -21,23 +21,18 @@ jobs:
       - name: Get PR and assignee information
         run: |
           echo '::set-output name=assignees::sampathweb'
-          echo "::set-output name=ip-address::$(curl -s ifconfig.me)"
           cat <<< "${{ github.event.head_commit.message }}" > message.txt
-          echo '::set-output name=PR_NUMBER1::$(cat message.txt | tr "\n" " " | sed -rn "s/.*ROLLBACK_PR=([^]]+).*/\1/p")'
-          echo '::set-output name=PR_NUMBER2::$(sed -rn "s/.*ROLLBACK_PR=([^]]+).*/\1/p" <<<"Test [ROLLBACK_PR=3333]adfadf")'
-          echo '::set-output name=MESSAGE::$(cat message.txt | tr "\n" " ")'
+          echo '::set-output name=PR_NUMBER::$(cat message.txt | tr "\n" " " | sed -rn "s/.*ROLLBACK_PR=([^]]+).*/\1/p")'
         id: pr-data
       - run: |
-          echo PR2 ${{ steps.pr-data.outputs.PR_NUMBER1 }}
-          echo PR2 ${{ steps.pr-data.outputs.PR_NUMBER2 }}
-          echo Message ${{ steps.pr-data.outputs.MESSAGE }}
+          echo PR2 ${{ steps.pr-data.outputs.PR_NUMBER }}
           echo Assignee ${{ steps.pr-data.outputs.assignees }}
-          echo IP Address ${{ steps.pr-data.outputs.ip-address }}
 
       - name: Create GitHub Issue
         uses: JasonEtco/create-an-issue@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.pr-data.outputs.PR_NUMBER }}
           ROLLBACK_COMMIT: ${{ github.event.head_commit.id }}
         with:
           filename: .github/issue-template.md
@@ -47,7 +42,5 @@ jobs:
           echo "${{toJSON(github.event)}}"
           echo Created issue number ${{ steps.create-issue.outputs.number }}
           echo Created ${{ steps.create-issue.outputs.url }}
-          echo PR2 ${{ steps.pr-data.outputs.PR_NUMBER2 }}
-          echo PR3 ${{ steps.pr-data.outputs.PR_NUMBER3 }}
+          echo PR ${{ steps.pr-data.outputs.PR_NUMBER }}
           echo Assignee ${{ steps.pr-data.outputs.assignees }}
-          echo IP Address ${{ steps.pr-data.outputs.ip-address }}
