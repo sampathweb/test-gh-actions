@@ -25,7 +25,7 @@ jobs:
           filename: .github/issue-template.md
           assignees: sampathweb
         id: create-issue
-        run: |
+      - run: |
           echo "${{toJSON(github.event)}}"
           echo Created issue number ${{ steps.create-issue.outputs.number }}
           echo Created ${{ steps.create-issue.outputs.url }}
