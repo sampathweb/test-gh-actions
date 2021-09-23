@@ -23,9 +23,10 @@ jobs:
           echo '::set-output name=assignees::sampathweb'
           echo "::set-output name=ip-address::$(curl -s ifconfig.me)"
           MESSAGE=${ ${{ github.event.head_commit.message }}//$'\n'/}
-          echo '::set-output name=PR_NUMBER1::$(sed -rn "s/.*ROLLBACK_PR=([^]]+).*/\1/p" <<<"$MESSAGE")'
+          cat <<< "${{ github.event.head_commit.message }}" > message.txt
+          echo '::set-output name=PR_NUMBER1::$(cat message.txt | tr "\n" " " | sed -e "s/.*ROLLBACK_PR=([^]]+).*/\1/p")'
           echo '::set-output name=PR_NUMBER2::$(sed -rn "s/.*ROLLBACK_PR=([^]]+).*/\1/p" <<<"Test [ROLLBACK_PR=3333]adfadf")'
-          echo '::set-output name=MESSAGE::$(echo MESSAGE)'
+          echo '::set-output name=MESSAGE::$(cat message.txt | tr "\n" " ")'
         id: pr-data
       - run: |
           echo PR2 ${{ steps.pr-data.outputs.PR_NUMBER1 }}
