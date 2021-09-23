@@ -27,10 +27,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ steps.pr-data.outputs.number }}
-          ROLLBACK_COMMIT: ${{ github.events.head_commit.id }}
+          ROLLBACK_COMMIT: ${{ github.event.head_commit.id }}
         with:
           filename: .github/issue-template.md
-          assignees: ${{ steps.random-color-generator.outputs.assignees }}"
+          assignees: ${{ steps.pr-data.outputs.assignees }}"
         id: create-issue
       - run: |
           echo "${{toJSON(github.event)}}"
