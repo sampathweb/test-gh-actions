@@ -21,17 +21,18 @@ jobs:
       - name: Get PR and assignee information
         run: |
           echo '::set-output name=assignees::sampathweb'
-          echo '::set-output name=ip-address::$(curl -s ifconfig.me)'
-          echo '::set-output name=number::$(sed -rn "s/.*ROLLBACK_PR=([^]]+).*/\1/p" <<<"Test [ROLLBACK_PR=1234]adfadf")'
+          PR_NUMBER1=$(sed -rn "s/.*ROLLBACK_PR=([^]]+).*/\1/p" <<<"Test [ROLLBACK_PR=3333]adfadf")
+          echo 'PR_NUMBER=$(sed -rn "s/.*ROLLBACK_PR=([^]]+).*/\1/p" <<<"Test [ROLLBACK_PR=1234]adfadf")'
         id: pr-data
       - run: |
-          echo PR ${{ steps.pr-data.outputs.number }}
+          echo PR ${{ env.PR_NUMBER }}
+          echo PR ${{ env.PR_NUMBER1 }}
           echo Assignee ${{ steps.pr-data.outputs.assignees }}
           echo IP Address ${{ steps.pr-data.ip-address }}
-      - uses: JasonEtco/create-an-issue@v2
+      - name: Create GitHub Issue
+        uses: JasonEtco/create-an-issue@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ steps.pr-data.outputs.number }}
           ROLLBACK_COMMIT: ${{ github.event.head_commit.id }}
         with:
           filename: .github/issue-template.md
