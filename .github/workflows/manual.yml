@@ -23,7 +23,7 @@ jobs:
           echo '::set-output name=assignees::sampathweb'
           echo '::set-output name=number::sed -rn "s/.*ROLLBACK_PR=([^]]+).*/\1/p" <<<"${{ github.event.head_commit.message }}"'
         id: pr-data
-     - run: |
+      - run: |
           echo PR ${{ steps.pr-data.outputs.number }}
           echo Assignee ${{ steps.pr-data.outputs.assignees }}
       - uses: JasonEtco/create-an-issue@v2
