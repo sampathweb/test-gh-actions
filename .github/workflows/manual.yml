@@ -19,8 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Get PR and assignee information
-      - run: echo "::set-output name=ip-address1::$(curl -s ifconfig.me)"
-      - run: |
+        run: |
           echo '::set-output name=assignees::sampathweb'
           echo '::set-output name=PR_NUMBER2::$(sed -rn "s/.*ROLLBACK_PR=([^]]+).*/\1/p" <<<"Test [ROLLBACK_PR=3333]adfadf")'
           echo '::set-output name=PR_NUMBER3::$(echo 1234)'
@@ -34,7 +33,6 @@ jobs:
           echo PR3 ${{ env.PR_NUMBER3 }}
           echo Assignee ${{ steps.pr-data.outputs.assignees }}
           echo IP Address ${{ steps.pr-data.outputs.ip-address }}
-          echo IP Address ${{ steps.pr-data.outputs.ip-address1 }}
 
       - name: Create GitHub Issue
         uses: JasonEtco/create-an-issue@v2
