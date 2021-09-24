@@ -10,11 +10,13 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "greet"
-  issue:
+  get-pr:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     if: "contains(github.event.head_commit.message, '[ROLLBACK_PR=')"
-
+    outputs:
+      PR_NUMBER: ${{ steps.pr-data.outputs.PR_NUMBER }}
+      assignees: ${{ steps.pr-data.outputs.assignees }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
@@ -25,22 +27,27 @@ jobs:
           echo '::set-output name=PR_NUMBER::$(cat message.txt | tr "\n" " " | sed -rn "s/.*ROLLBACK_PR=([^]]+).*/\1/p")'
         id: pr-data
       - run: |
-          echo PR2 ${{ steps.pr-data.outputs.PR_NUMBER }}
+          echo PR ${{ steps.pr-data.outputs.PR_NUMBER }}
           echo Assignee ${{ steps.pr-data.outputs.assignees }}
 
+  issue:
+    runs-on: ubuntu-latest
+    needs: get-pr
+    steps:
+      - uses: actions/checkout@v2
       - name: Create GitHub Issue
         uses: JasonEtco/create-an-issue@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: $(cat message.txt | tr "\n" " " | sed -rn "s/.*ROLLBACK_PR=([^]]+).*/\1/p")
+          PR_NUMBER: ${{ needs.get-pr.outputs.PR_NUMBER }}
           ROLLBACK_COMMIT: ${{ github.event.head_commit.id }}
         with:
           filename: .github/issue-template.md
-          assignees: ${{ steps.pr-data.outputs.assignees }}
+          assignees: ${{ needs.get-pr.outputs.assignees }}
         id: create-issue
       - run: |
           echo "${{toJSON(github.event)}}"
           echo Created issue number ${{ steps.create-issue.outputs.number }}
           echo Created ${{ steps.create-issue.outputs.url }}
-          echo PR ${{ steps.pr-data.outputs.PR_NUMBER }}
-          echo Assignee ${{ steps.pr-data.outputs.assignees }}
+          echo PR ${{ needs.get-pr.outputs.PR_NUMBER }}
+          echo Assignee ${{ needs.get-pr.outputs.assignees }}
