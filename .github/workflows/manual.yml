@@ -32,11 +32,11 @@ jobs:
         uses: JasonEtco/create-an-issue@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ steps.pr-data.outputs.PR_NUMBER }}
-          ROLLBACK_COMMIT: ${{ github.event.head_commit.id }}
         with:
           filename: .github/issue-template.md
           assignees: ${{ steps.pr-data.outputs.assignees }}
+          PR_NUMBER: ${{ steps.pr-data.outputs.PR_NUMBER }}
+          ROLLBACK_COMMIT: ${{ github.event.head_commit.id }}
         id: create-issue
       - run: |
           echo "${{toJSON(github.event)}}"
