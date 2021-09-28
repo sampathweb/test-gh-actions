@@ -25,7 +25,7 @@ jobs:
           echo PR ${{ steps.pr-data.outputs.PR_NUMBER }}
           echo Assignee ${{ steps.pr-data.outputs.assignees }}
       - name: Create a new Github Issue
-        uses: actions/github-script@v5
+        uses: actions/github-script@v4
         env:
           PR_NUMBER: ${{ steps.pr-data.outputs.PR_NUMBER }}
           ROLLBACK_COMMIT: ${{ github.event.head_commit.id }}
@@ -34,7 +34,7 @@ jobs:
           script: |
             const {PR_NUMBER, ROLLBACK_COMMIT} = process.env
             console.log(`Hello ${PR_NUMBER} ${ROLLBACK_COMMIT}`)
-            const result = github.rest.issues.createIssue({
+            const result = github.issues.createIssue({
               issue_number: PR_NUMBER,
               owner: context.repo.owner,
               repo: context.repo.repo,
