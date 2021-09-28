@@ -47,6 +47,7 @@ jobs:
               owner: "sampathweb",
               repo: context.payload.repository.name,
               title: `Creating Issue for Rollback of #${pr_number}: ${pr_title}`,
-              body: `PR #${pr_number} is rolled back in ${rollback_commit}.  Please follow up.`
+              body: `PR #${pr_number} is rolled back in ${rollback_commit}.  Please follow up.`,
+              assignees: assignees              
             })
             console.log(resp)
