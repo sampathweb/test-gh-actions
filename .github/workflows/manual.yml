@@ -25,12 +25,11 @@ jobs:
           echo PR ${{ steps.pr-data.outputs.PR_NUMBER }}
           echo Assignee ${{ steps.pr-data.outputs.assignees }}
       - name: Create a new Github Issue
-        uses: actions/github-script@v4
+        uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             console.log("Commit Message")
             console.log(context)
             const rollback_commit = context.payload.head_commit.id
-            const pr_number = context.payload.head_commit.message.match("s/.*ROLLBACK_PR=([^]]+).*/g)[0];
-            console.log(`Hello ${pr_number} ${rollback_commit}`)
+            console.log(context.payload.head_commit.message)
