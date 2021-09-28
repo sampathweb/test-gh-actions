@@ -26,22 +26,11 @@ jobs:
           echo Assignee ${{ steps.pr-data.outputs.assignees }}
       - name: Create a new Github Issue
         uses: actions/github-script@v4
-        env:
-          PR_NUMBER: ${{ steps.pr-data.outputs.PR_NUMBER }}
-          ROLLBACK_COMMIT: ${{ github.event.head_commit.id }}
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const {PR_NUMBER, ROLLBACK_COMMIT} = process.env
             console.log("Commit Message")
             console.log(github.event.head_commit.message)
             let pr_number = github.event.head_commit.message.match("s/.*ROLLBACK_PR=([^]]+).*/g)[0];
-            console.log(`Hello ${pr_number} ${ROLLBACK_COMMIT}`)
-            const result = await github.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: `Creating Issue for Rollback of #${pr_number}`
-              body: `PR #${pr_number} is Rolled back in ${ROLLBACK_COMMIT}.  Please follow up.`
-            })
-            console.log(result)
+            console.log(`Hello ${pr_number} ${github.event.head_commit.id}`)
 
