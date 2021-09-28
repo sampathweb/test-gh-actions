@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Manual workflow
+name: Create Issue on TF PR Rollback
 
 on:
   push:
@@ -8,47 +8,38 @@ on:
       - main
 
 jobs:
-  get-pr:
+  create-issue:
     runs-on: ubuntu-latest
     if: "contains(github.event.head_commit.message, '[ROLLBACK_PR=')"
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
-      - name: Get PR and assignee information
-        run: |
-          echo '::set-output name=assignees::sampathweb'
-          cat <<< "${{ github.event.head_commit.message }}" > message.txt
-          echo '::set-output name=PR_NUMBER::$(cat message.txt | tr "\n" " " | sed -rn "s/.*ROLLBACK_PR=([^]]+).*/\1/p")'
-        id: pr-data
-      - name: Echo PR Data Outputs
-        run: |
-          echo PR ${{ steps.pr-data.outputs.PR_NUMBER }}
-          echo Assignee ${{ steps.pr-data.outputs.assignees }}
       - name: Create a new Github Issue
         uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            console.log("Commit Message")
-            console.log(context)
             const rollback_commit = context.payload.head_commit.id
             const pr_number = context.payload.head_commit.message.match(/\[ROLLBACK_PR=(\d+).*/)[1]
-            console.log(`Hello ${pr_number} ${rollback_commit}`)
+            const owner = context.payload.repository.owner
+            const repo = context.payload.repository.name
+            console.log(`Original PR: ${pr_number} and Rollback Commit: ${rollback_commit}`)
+            // Get the Original PR Details
             const pr_resp = await github.rest.pulls.get({
-              owner: "sampathweb",
-              repo: context.payload.repository.name,
+              owner,
+              repo,
               pull_number: parseInt(pr_number)
             })
             const pr_title = pr_resp.data.title
             let assignees = pr_resp.data.assignees
             assignees.push(pr_resp.data.user.login)
             console.log(assignees, pr_number, pr_title)
-
+            // Create an new GH Issue and reference the Original PR
             const resp = await github.rest.issues.create({
-              owner: "sampathweb",
-              repo: context.payload.repository.name,
+              owner,
+              repo,
+              assignees,             
               title: `Creating Issue for Rollback of #${pr_number}: ${pr_title}`,
-              body: `PR #${pr_number} is rolled back in ${rollback_commit}.  Please follow up.`,
-              assignees: assignees              
+              body: `PR #${pr_number} is rolled back in ${rollback_commit}.  Please follow up.`
             })
             console.log(resp)
