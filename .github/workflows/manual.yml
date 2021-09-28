@@ -32,4 +32,5 @@ jobs:
             console.log("Commit Message")
             console.log(context)
             const rollback_commit = context.payload.head_commit.id
-            console.log(context.payload.head_commit.message)
+            const pr_number = context.payload.head_commit.message.match(".*ROLLBACK_PR=([^]]+).*/g")
+            console.log(`Hello ${pr_number} ${rollback_commit}`)
