@@ -21,9 +21,9 @@ jobs:
           script: |
             const rollback_commit = context.payload.head_commit.id
             const pr_number = context.payload.head_commit.message.match(/\[ROLLBACK_PR=(\d+).*/)[1]
-            const owner = "sampathweb" 
-            // context.payload.repository.owner
+            const owner = context.payload.repository.owner.name
             const repo = context.payload.repository.name
+            console.log(context.payload.repository.owner)
             console.log(`Original PR: ${pr_number} and Rollback Commit: ${rollback_commit}`)
             // Get the Original PR Details
             const pr_resp = await github.rest.pulls.get({
