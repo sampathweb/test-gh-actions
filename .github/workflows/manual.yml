@@ -32,5 +32,11 @@ jobs:
             console.log("Commit Message")
             console.log(context)
             const rollback_commit = context.payload.head_commit.id
-            const pr_number = context.payload.head_commit.message.match(/\[ROLLBACK_PR=(\d+).*/)
+            const pr_number = context.payload.head_commit.message.match(/\[ROLLBACK_PR=(\d+).*/)[1]
             console.log(`Hello ${pr_number} ${rollback_commit}`)
+            const result = await github.rest.pulls.get({
+              owner: "sampathweb",
+              repo: context.repository.name,
+              pull_number: parseInt(pr_number)
+            })
+            console.log(result)
