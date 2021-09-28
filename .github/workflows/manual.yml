@@ -30,5 +30,7 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             console.log("Commit Message")
-            console.log(github.event)
             console.log(context)
+            const rollback_commit = context.payload.head_commit.id
+            const pr_number = context.payload.head_commit.message.match("s/.*ROLLBACK_PR=([^]]+).*/g)[0];
+            console.log(`Hello ${pr_number} ${rollback_commit}`)
