@@ -7,47 +7,38 @@ on:
     branches:
       - main
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "greet"
   get-pr:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
     if: "contains(github.event.head_commit.message, '[ROLLBACK_PR=')"
-    outputs:
-      PR_NUMBER: ${{ steps.pr-data.outputs.PR_NUMBER }}
-      assignees: ${{ steps.pr-data.outputs.assignees }}
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repo
+        uses: actions/checkout@v2
       - name: Get PR and assignee information
         run: |
           echo '::set-output name=assignees::sampathweb'
           cat <<< "${{ github.event.head_commit.message }}" > message.txt
           echo '::set-output name=PR_NUMBER::$(cat message.txt | tr "\n" " " | sed -rn "s/.*ROLLBACK_PR=([^]]+).*/\1/p")'
         id: pr-data
-      - run: |
+      - name: Echo PR Data Outputs
+        run: |
           echo PR ${{ steps.pr-data.outputs.PR_NUMBER }}
           echo Assignee ${{ steps.pr-data.outputs.assignees }}
-
-  issue:
-    runs-on: ubuntu-latest
-    needs: get-pr
-    steps:
-      - uses: actions/checkout@v2
-      - name: Create GitHub Issue
-        uses: dblock/create-an-issue@v2.5
+      - name: Create a new Github Issue
+        uses: actions/github-script@v5
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ needs.get-pr.outputs.PR_NUMBER }}
+          PR_NUMBER: ${{ steps.pr-data.outputs.PR_NUMBER }}
           ROLLBACK_COMMIT: ${{ github.event.head_commit.id }}
         with:
-          filename: .github/issue-template.md
-          assignees: ${{ needs.get-pr.outputs.assignees }}
-        id: create-issue
-      - run: |
-          echo "${{toJSON(github.event)}}"
-          echo Created issue number ${{ steps.create-issue.outputs.number }}
-          echo Created ${{ steps.create-issue.outputs.url }}
-          echo PR ${{ needs.get-pr.outputs.PR_NUMBER }}
-          echo Assignee ${{ needs.get-pr.outputs.assignees }}
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const {PR_NUMBER, ROLLBACK_COMMIT} = process.env
+            console.log(`Hello ${PR_NUMBER} ${ROLLBACK_COMMIT}`)
+            const result = github.rest.issues.createIssue({
+              issue_number: PR_NUMBER,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "🎉 You've created this issue comment using GitHub Script!!!"
+            })
+            console.log(result)
+
