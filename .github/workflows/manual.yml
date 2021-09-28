@@ -34,9 +34,19 @@ jobs:
             const rollback_commit = context.payload.head_commit.id
             const pr_number = context.payload.head_commit.message.match(/\[ROLLBACK_PR=(\d+).*/)[1]
             console.log(`Hello ${pr_number} ${rollback_commit}`)
-            const result = await github.rest.pulls.get({
+            const pr_resp = await github.rest.pulls.get({
               owner: "sampathweb",
               repo: context.payload.repository.name,
               pull_number: parseInt(pr_number)
             })
-            console.log(result)
+            const assignees = pr_resp.data.assignees + [pr_resp.data.user.login]
+            const pr_title = pr_resp.data.title
+            console.log(asignees, pr_title)
+            const resp = await github.issues.create({
+              owner: "sampathweb",
+              repo: context.payload.repository.name,
+              title: `Creating Issue for Rollback of #${pr_number}: ${pr_title}`
+              body: `PR #${pr_number} is rolled back in ${ROLLBACK_COMMIT}.  Please follow up.  
+              If the rollback is intended with no furhter action, plese close this issue.`
+            })
+            console.log(resp)
