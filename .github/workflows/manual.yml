@@ -34,11 +34,11 @@ jobs:
           script: |
             const {PR_NUMBER, ROLLBACK_COMMIT} = process.env
             console.log(`Hello ${PR_NUMBER} ${ROLLBACK_COMMIT}`)
-            const result = github.issues.createIssue({
-              issue_number: PR_NUMBER,
+            const result = await github.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: "🎉 You've created this issue comment using GitHub Script!!!"
+              title: `Creating Issue for Rollback of #${PR_NUMBER}`
+              body: `PR #${PR_NUMBER} is Rolled back in ${ROLLBACK_COMMIT}.  Please follow up.`
             })
             console.log(result)
 
