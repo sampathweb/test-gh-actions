@@ -39,8 +39,9 @@ jobs:
               repo: context.payload.repository.name,
               pull_number: parseInt(pr_number)
             })
-            const assignees = pr_resp.data.assignees + [pr_resp.data.user.login]
             const pr_title = pr_resp.data.title
+            let assignees = pr_resp.data.assignees
+            assignees.push(pr_resp.data.user.login)
             console.log(assignees, pr_number, pr_title)
 
             const resp = await github.rest.issues.create({
