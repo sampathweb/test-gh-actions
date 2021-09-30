@@ -31,6 +31,7 @@ jobs:
               repo,
               pull_number: parseInt(pr_number)
             })
+            console.log(pr_resp)
             const pr_title = pr_resp.data.title
             let assignees = pr_resp.data.assignees
             assignees.push(pr_resp.data.user.login)
@@ -41,6 +42,7 @@ jobs:
               repo,
               assignees,             
               title: `Creating Issue for Rollback of #${pr_number}: ${pr_title}`,
-              body: `PR #${pr_number} is rolled back in ${rollback_commit}.  Please follow up.`
+              body: `Merged PR #${pr_number} is rolled back in ${rollback_commit}.  
+              Please follow up with reviewer and close this issue once its resolved.`
             })
             console.log(resp)
