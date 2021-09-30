@@ -37,8 +37,7 @@ jobs:
                 pull_number: pr_number
               })
             } catch (err) {
-              console.log(`Error fetching PR: ${pr_number}.  Err: ${err.message}`)
-              console.log(pr_resp)
+              console.log(`Error fetching PR: ${pr_number}`)
               throw err
             }
             if (pr_resp.data.state != 'closed') {
