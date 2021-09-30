@@ -31,7 +31,10 @@ jobs:
               repo,
               pull_number: parseInt(pr_number)
             })
-            console.log(pr_resp)
+            if (pr_resp.status != 200 || pr_resp.data.state != 'closed') {
+              console.log("PR doesn't exist or not closed.  Not a valid condition.")
+              console.log(pr_resp)
+            }
             const pr_title = pr_resp.data.title
             let assignees = pr_resp.data.assignees
             assignees.push(pr_resp.data.user.login)
