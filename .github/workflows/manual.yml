@@ -49,8 +49,8 @@ jobs:
               owner,
               repo,
               assignees,             
-              title: `Creating Issue for Rollback of #${pr_number}: ${pr_title}`,
+              title: `Issue created for Rollback of PR #${pr_number}: ${pr_title}`,
               body: `Merged PR #${pr_number} is rolled back in ${rollback_commit}.  
               Please follow up with the reviewer and close this issue once its resolved.`
             })
-            console.log(resp)
+            console.log(`Issue created: ${resp.data.number} with Title: ${resp.data.title}`)
