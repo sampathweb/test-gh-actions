@@ -20,20 +20,25 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const rollback_commit = context.payload.head_commit.id
-            const pr_number = context.payload.head_commit.message.match(/\[ROLLBACK_PR=(\d+).*/)[1]
+            const pr_match_groups = context.payload.head_commit.message.match(/\[ROLLBACK_PR=(\d+).*/) || []
+            if (pr_match_groups.length != 2) {
+              console.log(`PR Number not found in ${context.payload.head_commit.message}`)
+              return
+            }
+            const pr_number = parseInt(pr_match_groups[1])
             const owner = context.payload.repository.owner.name
             const repo = context.payload.repository.name
-            console.log(context.payload.repository.owner)
             console.log(`Original PR: ${pr_number} and Rollback Commit: ${rollback_commit}`)
             // Get the Original PR Details
             const pr_resp = await github.rest.pulls.get({
               owner,
               repo,
-              pull_number: parseInt(pr_number)
+              pull_number: pr_number
             })
             if (pr_resp.status != 200 || pr_resp.data.state != 'closed') {
               console.log("PR doesn't exist or not closed.  Not a valid condition.")
               console.log(pr_resp)
+              return
             }
             const pr_title = pr_resp.data.title
             let assignees = pr_resp.data.assignees
@@ -46,6 +51,6 @@ jobs:
               assignees,             
               title: `Creating Issue for Rollback of #${pr_number}: ${pr_title}`,
               body: `Merged PR #${pr_number} is rolled back in ${rollback_commit}.  
-              Please follow up with reviewer and close this issue once its resolved.`
+              Please follow up with the reviewer and close this issue once its resolved.`
             })
             console.log(resp)
