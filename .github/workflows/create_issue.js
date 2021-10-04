@@ -33,5 +33,5 @@ module.exports = ({github, context}) => {
     body: `Merged PR #${pr_number} is rolled back in ${rollback_commit}.  
     Please follow up with the reviewer and close this issue once its resolved.`
   })
-  console.log(`Issue created: ${resp.data.number} with Title: ${resp.data.title}`)
+  return `Issue created: ${resp.data.number} with Title: ${resp.data.title}`;
 }
