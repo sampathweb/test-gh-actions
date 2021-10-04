@@ -20,4 +20,4 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const script = require('./.github/workflows/create_issue.js')
-            await script({github, context})
+            console.log(await script({github, context}))
