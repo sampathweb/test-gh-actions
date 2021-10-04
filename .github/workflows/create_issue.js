@@ -1,9 +1,10 @@
 /** Extracts PR from commit message and creates a GitHub Issue on Rollback of PR
   Created issue is assigned to original PR owner and reviewer.
-  
+
   @param {!object}
     github enables querying for PR and also create issue using rest endpoint
     context has the commit message details in the payload
+  @return {string} Returns the issue number and title
 */
 module.exports = async ({github, context}) => {
   const rollback_commit = context.payload.head_commit.id;
@@ -40,5 +41,5 @@ module.exports = async ({github, context}) => {
     body: `Merged PR #${pr_number} is rolled back in ${rollback_commit}.
     Please follow up with the reviewer and close this issue once its resolved.`
   });
-  console.log(`Issue created: ${resp.data.number} with Title: ${resp.data.title}`);
+  return `Issue created: ${resp.data.number} with Title: ${resp.data.title}`;
 };
