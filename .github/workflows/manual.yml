@@ -19,5 +19,5 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const script = require('./create_issue.js')
+            const script = require('./github/workflows/create_issue.js')
             console.log(script({github, context}))
