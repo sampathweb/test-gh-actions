@@ -10,7 +10,7 @@ on:
 jobs:
   create-issue:
     runs-on: ubuntu-latest
-    if: "contains(github.event.head_commit.message, '[ROLLBACK_PR=')"
+    if: "contains(github.event.head_commit.message, '[Rollback of PR #')"
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -19,5 +19,5 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const script = require('./github/workflows/create_issue.js')
+            const script = require('./.github/workflows/create_issue.js')
             console.log(script({github, context}))
