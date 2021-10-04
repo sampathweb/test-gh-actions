@@ -1,6 +1,6 @@
-module.exports = ({github, context}) => {            
+module.exports = async ({github, context}) => {            
   const rollback_commit = context.payload.head_commit.id
-  const pr_match_groups = context.payload.head_commit.message.match(/\[ROLLBACK_PR=(\d+).*/) || []
+  const pr_match_groups = context.payload.head_commit.message.match(/\[Rollback of PR #(\d+).*/) || []
   if (pr_match_groups.length != 2) {
     console.log(`PR Number not found in ${context.payload.head_commit.message}`)
     throw "Error extracting PR Number from commit message"
