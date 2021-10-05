@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       github.repository == 'sampathweb/test-gh-actions' &&
-      "contains(github.event.head_commit.message, 'Rollback of PR #')"
+      contains(github.event.head_commit.message, 'Rollback of PR #')
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
