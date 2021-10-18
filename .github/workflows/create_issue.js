@@ -30,7 +30,8 @@ module.exports = async ({github, context}) => {
   }
   const pr_title = pr_resp.data.title;
   // Assign to PR owner and reviewers
-  let assignees = pr_resp.data.assignees;
+  console.log(pr_resp);
+  let assignees = pr_resp.data.assignees + pr_resp.data.requested_reviewers;
   assignees.push(pr_resp.data.user.login);
   // Create an new GH Issue and reference the Original PR
   const resp = await github.rest.issues.create({
