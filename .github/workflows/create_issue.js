@@ -32,12 +32,7 @@ module.exports = async ({github, context}) => {
   // Assign to PR owner and reviewers
   console.log(pr_resp);
   const assignees = pr_resp.data.assignees.concat(pr_resp.data.requested_reviewers);
-  let assignee_logins = [];
-  for (const assignee in assignees) {
-    assignee_logins.push(assignee.login);
-    console.log("Agignee Login Loop");
-    console.log(assignee);
-  }
+  let assignee_logins = assignees.map(x => x.login);
   assignee_logins.push(pr_resp.data.user.login);
   console.log("Agignee Logins");
   console.log(assignee_logins);
