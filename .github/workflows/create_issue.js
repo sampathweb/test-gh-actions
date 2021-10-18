@@ -40,7 +40,7 @@ module.exports = async ({github, context}) => {
   const resp = await github.rest.issues.create({
     owner,
     repo,
-    assignees,
+    assignees: assignee_logins,
     title: `Issue created for Rollback of PR #${pr_number}: ${pr_title}`,
     body: `Merged PR #${pr_number} is rolled back in ${rollback_commit}.
     Please follow up with the reviewer and close this issue once its resolved.`
