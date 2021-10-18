@@ -35,8 +35,12 @@ module.exports = async ({github, context}) => {
   let assignee_logins = [];
   for (const assignee in assignees) {
     assignee_logins.push(assignee.login);
+    console.log("Agignee Login Loop");
+    console.log(assignee);
   }
   assignee_logins.push(pr_resp.data.user.login);
+  console.log("Agignee Logins");
+  console.log(assignee_logins);
   // Create an new GH Issue and reference the Original PR
   const resp = await github.rest.issues.create({
     owner,
