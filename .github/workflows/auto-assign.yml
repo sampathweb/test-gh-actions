@@ -56,4 +56,15 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - run: echo " Github Sender  ${{ github.event.sender }}."
+      - run: echo " Github Sender  ${{ github.event.sender.type }}."
+      - run: echo " Github Sender  ${{ github.event.sender.email }}."      
+
+            
+  Auto-Assign-M:
+    runs-on: ubuntu-latest
+    if: |
+      github.event.sender.type == 'User' &&
+      endsWith(github.event.sender.email, '@sampathweb.com')
+    steps:
+      - run: echo "🎉 - Success."
+      
