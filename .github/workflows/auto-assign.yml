@@ -28,6 +28,11 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            echo "The name of the pusher: ${{ github.event.pusher.name }}"
-            echo "The email of the pusher: ${{ github.event.pusher.email }}"
-            github.event
+            console.log(github.event.pusher.name)
+            console.log(github.event.pusher.email)
+            console.log("Events")
+            console.log(github.event)
+            console.log("GitHub")
+            console.log(github)
+            console.log("Context")
+            console.log(context)
