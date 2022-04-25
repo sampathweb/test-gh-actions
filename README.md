@@ -1,5 +1,5 @@
 # test-gh-actions
-GH Actions - Test..
+GH Actions - Test.
 
 Trigger Action
 Rollback of PR#<id>
