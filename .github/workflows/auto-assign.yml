@@ -33,6 +33,6 @@ jobs:
             console.log("Context")
             console.log(context)
             console.log("head")
-            console.log(context.pull_request.head)
+            console.log(context.payload.pull_request.head)
             console.log("user")
-            console.log(context.pull_request.user)
+            console.log(context.payload.pull_request.user)
