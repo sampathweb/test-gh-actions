@@ -56,5 +56,4 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-          echo " Github Sender  ${{ github.event.sender }}."
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - run: echo " Github Sender  ${{ github.event.sender }}."
