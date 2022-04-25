@@ -28,10 +28,8 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            console.log(github.event.pusher.name)
-            console.log(github.event.pusher.email)
-            console.log("Events")
-            console.log(github.event)
+            console.log("head commit")
+            console.log(github.head_commit)
             console.log("GitHub")
             console.log(github)
             console.log("Context")
