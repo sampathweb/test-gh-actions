@@ -24,10 +24,15 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: Create a new Github Issue
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
+            const username = context.payload.sender.login
+            const resp = await github.rest.users.getByUsername({
+              username,
+            })
+            console.log(resp)
             console.log("GitHub")
             console.log(github)
             console.log("Context")
