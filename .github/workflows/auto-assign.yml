@@ -31,45 +31,17 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const resp = await github.rest.issues.addLabels({
+            let resp = await github.rest.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: ['bug', 'ready-to-pull']
             })
             console.log(resp)
-            const resp2 = await github.rest.issues.addAssignees({
+            resp = await github.rest.issues.addAssignees({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               assignees: ['shobanavv']
             })
-            console.log(resp2)
             console.log(resp)
-            console.log("GitHub")
-            console.log(github)
-            console.log("Context")
-            console.log(context)
-            console.log("head")
-            console.log(context.payload.pull_request.head)
-            console.log("user")
-            console.log(context.payload.pull_request.user)
-            
-  Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo " Github Sender  ${{ github.event.sender }}."
-      - run: echo " Github Sender  ${{ github.event.sender.login }}."
-      - run: echo " Github Sender  ${{ github.event.sender.type }}."
-      - run: echo " Github Sender  ${{ github.event.sender.email }}."      
-      
