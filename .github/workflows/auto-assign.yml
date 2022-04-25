@@ -29,8 +29,9 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const username = context.payload.sender.login
+            const sender = "bani-intelaipg"
             const resp = await github.rest.users.getByUsername({
-              "bani-intelaipg"
+              sender
             })
             console.log(resp)
             console.log("GitHub")
