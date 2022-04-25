@@ -21,11 +21,13 @@ jobs:
   auto-assign-for-trusted-partners:
     runs-on: ubuntu-latest
     steps:
-      - name: Get PR Author Email Address
+      - name: Checkout repo
         uses: actions/checkout@v2
+      - name: Create a new Github Issue
+        uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
-          run: |
+          script: |
             echo "The name of the pusher: ${{ github.event.pusher.name }}"
             echo "The email of the pusher: ${{ github.event.pusher.email }}"
             github.event
