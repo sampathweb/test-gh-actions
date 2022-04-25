@@ -28,9 +28,11 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            console.log("head commit")
-            console.log(github.head_commit)
             console.log("GitHub")
             console.log(github)
             console.log("Context")
             console.log(context)
+            console.log("head")
+            console.log(context.pull_request.head)
+            console.log("user")
+            console.log(context.pull_request.user)
