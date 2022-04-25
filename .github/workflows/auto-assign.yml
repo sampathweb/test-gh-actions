@@ -21,9 +21,8 @@ jobs:
   auto-assign-for-trusted-partners:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
       - name: Get PR Author Email Address
+        uses: actions/checkout@v2
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           run: |
