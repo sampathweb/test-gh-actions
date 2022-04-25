@@ -27,6 +27,7 @@ jobs:
         uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            console.log(github)
-            console.log(context)
+          run: |
+            echo "The name of the pusher: ${{ github.event.pusher.name }}"
+            echo "The email of the pusher: ${{ github.event.pusher.email }}"
+            github.event
