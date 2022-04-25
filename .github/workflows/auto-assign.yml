@@ -30,7 +30,7 @@ jobs:
           script: |
             const username = context.payload.sender.login
             const resp = await github.rest.users.getByUsername({
-              "bani-intelaipg",
+              "bani-intelaipg"
             })
             console.log(resp)
             console.log("GitHub")
