@@ -28,8 +28,8 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const username1 = context.payload.sender.login
-            const username = "bani-intelaipg"
+            const username = context.payload.sender.login
+            const username1 = "bani-intelaipg"
             const resp = await github.rest.users.getByUsername({
               username
             })
@@ -56,6 +56,8 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+      - run: echo " Github Sender  ${{ github.event.sender }}."
+      - run: echo " Github Sender  ${{ github.event.sender.login }}."
       - run: echo " Github Sender  ${{ github.event.sender.type }}."
       - run: echo " Github Sender  ${{ github.event.sender.email }}."      
 
