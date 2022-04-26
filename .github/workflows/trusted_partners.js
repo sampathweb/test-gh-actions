@@ -7,7 +7,7 @@
   @return {string} Returns the issue number and title
 */
 
-intel_action = async ({github, context}) => {
+const intel_action = async ({github, context}) => {
   // Intel is a trusted parter and we want to auto-run tests and mark the PR as ready to pull
   // This allows us to reduce the delay to external partners
   // Add Labels - kokoro:force-run, ready to pull
