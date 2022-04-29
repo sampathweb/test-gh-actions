@@ -7,12 +7,15 @@ jobs:
   auto-assign-intel:
     runs-on: ubuntu-latest
     if: |
-      github.event.pull_request.draft == false &&
-      github.event.sender.type == 'User' &&
-      endsWith(github.event.sender.email, '@sampathweb.com')
+      github.event.pull_request.draft == false
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
+        run: |
+          echo ${{github.event.sender.type}}
+          echo ${{github.event.sender.email}}
+          echo ${github.event.sender}}
+          echo ${{github.event.pull_request}}
       - name: Create a new Github Issue
         uses: actions/github-script@v6
         with:
