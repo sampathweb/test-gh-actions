@@ -1,13 +1,15 @@
 name: For CLs coming from trusted partners, Auto run tests and mark ready for pull.
 on:
   pull_request:
-
+    branches:
+      - main
 jobs:
   auto-assign-intel:
     runs-on: ubuntu-latest
     if: |
-      github.event.sender.type == 'User' ||
-      endsWith(github.event.sender.login, 'web')
+      github.event.pull_request.draft == false &&
+      github.event.sender.type == 'User' &&
+      endsWith(github.event.sender.email, '@sampathweb.com')
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
