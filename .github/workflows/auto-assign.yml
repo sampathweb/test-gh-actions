@@ -10,11 +10,14 @@ jobs:
       github.event.pull_request.draft == false
     steps:
       - name: Print Variables
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
         run: |
           echo ${{github.event.sender.type}}
           echo ${{github.event.sender.email}}
           echo ${{github.event.sender}}
           echo ${{github.event.pull_request}}
+          echo "$GITHUB_CONTEXT"
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: Create a new Github Issue
