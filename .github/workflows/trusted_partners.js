@@ -57,5 +57,5 @@ const intel_action = async ({github, context}) => {
 
 module.exports = {
     intel: intel_action,
-    get_partner
+    get_email_domain
 };
