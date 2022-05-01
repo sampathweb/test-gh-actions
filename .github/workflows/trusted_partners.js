@@ -30,10 +30,6 @@ const intel_action = async ({github, context}) => {
   // Add Labels - kokoro:force-run, ready to pull
   // The PR is also assigned to Mihai so it doesn't have to wait for assignment
   // Additional reviewers can be added manually based on PR contents
-  const partner = get_partner({github, context});
-  console.log("Partner");
-  console.log(partner);
-        
   const labels = ['bug', 'ready-to-pull'];
   const assignees = ['shobanavv'];
   const resp_label = await github.rest.issues.addLabels({
