@@ -7,12 +7,27 @@
   @return {string} Returns the issue number and title
 */
 
+const get_partner = async ({github, context}) => {
+  const user = context.actor;
+  const user = await github.rest.users.getByUsername({
+    username: context.actor
+  });
+  console.log(user);
+  return user.email;
+};
+
+
 const intel_action = async ({github, context}) => {
   // Intel is a trusted parter and we want to auto-run tests and mark the PR as ready to pull
   // This allows us to reduce the delay to external partners
   // Add Labels - kokoro:force-run, ready to pull
   // The PR is also assigned to Mihai so it doesn't have to wait for assignment
   // Additional reviewers can be added manually based on PR contents
+  const user = await github.rest.users.getByUsername({
+    username: context.actor
+  });
+  console.log(user);
+  
   const labels = ['bug', 'ready-to-pull'];
   const assignees = ['shobanavv'];
   const resp_label = await github.rest.issues.addLabels({
@@ -39,5 +54,6 @@ const intel_action = async ({github, context}) => {
 };
 
 module.exports = {
-    intel: intel_action
+    intel: intel_action,
+    get_parter
 };
