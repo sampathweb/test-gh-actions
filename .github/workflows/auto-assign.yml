@@ -28,12 +28,18 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const script = require('./.github/workflows/trusted_partners.js')
-            console.log(github)
-            console.log(context)
-            const domain = await script.get_email_domain({github, context})
-            if (domain == "sampathweb.com") {
-              console.log(await script.intel({github, context}))
-            } else {
-              console.log("Skip Trusted Partner Action")
+            const script = require('./.github/workflows/trusted_partners.js');
+            const domain = await script.get_email_domain({github, context});
+            switch(domain) {
+            case "intel.com":
+              console.log(await script.intel({github, context}));
+              break;
+            case "sampathweb.com":
+              console.log("Sampathweb. No action necessary");
+              break;
+            case "google.com":
+              console.log("Googler. No action necessary");
+              break;
+            default:
+              console.log("Skip Trusted Partner Action");
             }
