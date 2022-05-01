@@ -7,13 +7,13 @@
   @return {string} Returns the issue number and title
 */
 
-const get_email_domain = async ({github, username}) => {
+const get_email_domain = async ({github, context}) => {
   const user = await github.rest.users.getByUsername({
-    username
+    username: context.actor
   });
   if (user.status >= 400) {
     console.log(user);
-    throw `Error Getting user data for ${username}`;
+    throw `Error Getting user data for ${context.actor}`;
   }
   const email = user.data.email;
   let domain = "";
@@ -30,7 +30,7 @@ const intel_action = async ({github, context}) => {
   // Add Labels - kokoro:force-run, ready to pull
   // The PR is also assigned to Mihai so it doesn't have to wait for assignment
   // Additional reviewers can be added manually based on PR contents
-  const partner = get_partner({github, context.actor});
+  const partner = get_partner({github, context});
   console.log("Partner");
   console.log(partner);
         
