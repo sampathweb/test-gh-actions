@@ -31,5 +31,9 @@ jobs:
             const script = require('./.github/workflows/trusted_partners.js')
             console.log(github)
             console.log(context)
-            console.log(await script.intel({github, context}))
-            
+            const domain = await script.get_email_domain({github, context})
+            if (domain == "sampathweb.com") {
+              console.log(await script.intel({github, context}))
+            } else {
+              console.log("Skip Trusted Partner Action")
+            }
