@@ -8,7 +8,6 @@
 */
 
 const get_partner = async ({github, context}) => {
-  const user = context.actor;
   const user = await github.rest.users.getByUsername({
     username: context.actor
   });
