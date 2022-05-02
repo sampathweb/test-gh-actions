@@ -9,6 +9,7 @@ jobs:
     permissions:
       # Needed to attach tags into the PR
       contents: write
+      pull-requests: write
     if: |
       github.event.pull_request.draft == false &&
       github.event.sender.type == 'User'
