@@ -30,7 +30,9 @@ jobs:
           script: |
             const script = require('./.github/workflows/trusted_partners.js');
             console.log(context);
-            const domain = await script.get_email_domain({github, context});
+            const username = context.payload.pull_request.user.login;
+            console.log(username);
+            const domain = await script.get_email_domain({github, username});
             switch(domain) {
             case "intel.com":
               console.log(await script.intel({github, context}));
