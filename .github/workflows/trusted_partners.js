@@ -6,8 +6,7 @@
   @return {string} Return the domain name of the user's email. Empty string if not found
 */
 
-const get_email_domain = async ({github, context}) => {
-  const username = context.event.pull_request.user.login;
+const get_email_domain = async ({github, username}) => {
   const user = await github.rest.users.getByUsername({
     username
   });
