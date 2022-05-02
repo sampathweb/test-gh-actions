@@ -7,12 +7,13 @@
 */
 
 const get_email_domain = async ({github, context}) => {
+  const username = context.event.pull_request.user.login;
   const user = await github.rest.users.getByUsername({
-    username: context.actor
+    username
   });
   if (user.status >= 400) {
     console.log(user);
-    throw `Error Getting user data for ${context.actor}`;
+    throw `Error Getting user data for ${username}`;
   }
   const email = user.data.email;
   let domain = "";
@@ -21,6 +22,7 @@ const get_email_domain = async ({github, context}) => {
   console.log(domain);
   return domain;
 };
+
 
 /** For trusted parters like intel, we want to auto-run tests and mark the PR as ready to pull
     This allows us to reduce the delay to external partners
