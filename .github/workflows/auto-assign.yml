@@ -6,6 +6,9 @@ on:
 jobs:
   auto-assign-intel:
     runs-on: ubuntu-latest
+    permissions:
+      # Needed to attach tags into the PR
+      contents: write
     if: |
       github.event.pull_request.draft == false &&
       github.event.sender.type == 'User'
