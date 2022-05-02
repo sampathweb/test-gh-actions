@@ -1,20 +1,3 @@
-/**
- * @license
- * Copyright 2021 Google LLC. All Rights Reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * =============================================================================
- */
-
 /** Get the domain of the user's email
 
   @param {!object}
@@ -29,7 +12,7 @@ const get_email_domain = async ({github, context}) => {
   });
   if (user.status >= 400) {
     console.log(user);
-    throw `Error Getting user data for ${username}`;
+    throw `Error Getting user data for ${context.actor}`;
   }
   const email = user.data.email;
   let domain = "";
@@ -50,8 +33,8 @@ const get_email_domain = async ({github, context}) => {
   @return {string} Returns the message with labels attached and assignees added
 */
 const intel_action = async ({github, context}) => {
-  const labels = ['kokoro:force-run', 'ready to pull'];
-  const assignees = ['mihaimaruseac'];
+  const labels = ['bug', 'ready-to-pull'];
+  const assignees = ['shobanavv'];
   const resp_label = await github.rest.issues.addLabels({
     issue_number: context.issue.number,
     owner: context.repo.owner,
