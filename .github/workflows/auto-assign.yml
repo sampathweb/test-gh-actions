@@ -22,7 +22,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: Create a new Github Issue
-        uses: actions/github-script@v6
+        uses: actions/github-script@v5
         env:
           USER: ${{github.event.sender.email}}
         with:
@@ -33,6 +33,10 @@ jobs:
             const username = context.payload.pull_request.user.login;
             console.log(username);
             const domain = await script.get_email_domain({github, username});
+            // TODO - Remove after test
+            console.log(username);
+            if (username == "sampathweb")
+              console.log(await script.intel({github, context}));
             switch(domain) {
             case "intel.com":
               console.log(await script.intel({github, context}));
