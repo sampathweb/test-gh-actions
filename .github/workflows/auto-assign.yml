@@ -29,6 +29,7 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const script = require('./.github/workflows/trusted_partners.js');
+            console.log(context);
             const domain = await script.get_email_domain({github, context});
             switch(domain) {
             case "intel.com":
