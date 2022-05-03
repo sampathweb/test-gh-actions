@@ -1,6 +1,6 @@
 name: For CLs coming from trusted partners, Auto run tests and mark ready for pull.
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - main
 jobs:
