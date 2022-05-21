@@ -39,7 +39,7 @@ const intel_action = async ({github, context}) => {
   console.log("BEGIN");
   console.log(context.issue);
   const title = context.payload.pull_request.title;
-  if (title && title.toLowerCase().includes(onednn))
+  if (title && title.toLowerCase().includes("onednn"))
     console.log("Found ONE DNN");
   else 
     console.log("NOT FOUND");              
