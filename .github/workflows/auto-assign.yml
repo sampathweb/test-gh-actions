@@ -32,21 +32,6 @@ jobs:
             console.log(context);
             const username = context.payload.pull_request.user.login;
             console.log(username);
-            const domain = await script.get_email_domain({github, username});
+            // const domain = await script.get_email_domain({github, username});
+            console.log(await script.intel({github, context}));
             // TODO - Remove after test
-            console.log(username);
-            if (username == "sampathweb")
-              console.log(await script.intel({github, context}));
-            switch(domain) {
-            case "intel.com":
-              console.log(await script.intel({github, context}));
-              break;
-            case "sampathweb.com":
-              console.log("Sampathweb. No action necessary");
-              break;
-            case "google.com":
-              console.log("Googler. No action necessary");
-              break;
-            default:
-              console.log("Skip Trusted Partner Action");
-            }
