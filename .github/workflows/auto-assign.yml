@@ -22,7 +22,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: Create a new Github Issue
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         env:
           USER: ${{github.event.sender.email}}
         with:
