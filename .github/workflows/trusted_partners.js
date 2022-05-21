@@ -46,26 +46,6 @@ const intel_action = async ({github, context}) => {
   console.log(context.payload.pull_request);
   console.log(context);
   console.log("END");
-  const resp_label = await github.rest.issues.addLabels({
-    issue_number: context.issue.number,
-    owner: context.repo.owner,
-    repo: context.repo.repo,
-    labels: labels
-  });
-  if (resp_label.status >= 400) {
-    console.log(resp_label);
-    throw "Error adding labels to PR";
-  }
-  const resp_assign = await github.rest.issues.addAssignees({
-    issue_number: context.issue.number,
-    owner: context.repo.owner,
-    repo: context.repo.repo,
-    assignees: assignees
-  });
-  if (resp_assign.status >= 400) {
-    console.log(resp_assign);
-    throw "Error adding assignee to PR";
-  }
   return `PR Updated successfully with Labels: ${labels} with Assignees: ${assignees}`;
 };
 
