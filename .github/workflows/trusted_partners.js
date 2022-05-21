@@ -36,9 +36,9 @@ const get_email_domain = async ({github, username}) => {
 const intel_action = async ({github, context}) => {
   const labels = ['bug', 'ready-to-pull'];
   const assignees = ['shobanavv'];
+  const title = context.payload.pull_request && context.payload.pull_request.title;
   console.log("BEGIN");
-  console.log(context.issue);
-  const title = context.payload.pull_reques && context.payload.pull_request.title;
+  console.log(title);
   if (title && title.toLowerCase().includes("onednn"))
     console.log("Found ONE DNN");
   else 
