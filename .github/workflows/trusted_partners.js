@@ -38,7 +38,11 @@ const intel_action = async ({github, context}) => {
   const assignees = ['shobanavv'];
   console.log("BEGIN");
   console.log(context.issue);
-  console.log(context.payload.pull_request.title);
+  const title = context.payload.pull_request.title;
+  if (title && title.toLowerCase().includes(onednn))
+    console.log("Found ONE DNN");
+  else 
+    console.log("NOT FOUND");              
   console.log(context.payload.pull_request);
   console.log(context);
   console.log("END");
