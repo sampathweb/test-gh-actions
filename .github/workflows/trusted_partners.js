@@ -36,8 +36,10 @@ const get_email_domain = async ({github, username}) => {
 const intel_action = async ({github, context}) => {
   const labels = ['bug', 'ready-to-pull'];
   const assignees = ['shobanavv'];
+  console.log("BEGIN");
   console.log(context.title);
   console.log(context.issue.title);
+  console.log("END");
   const resp_label = await github.rest.issues.addLabels({
     issue_number: context.issue.number,
     owner: context.repo.owner,
