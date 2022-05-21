@@ -38,6 +38,8 @@ const intel_action = async ({github, context}) => {
   const assignees = ['shobanavv'];
   console.log("BEGIN");
   console.log(context.issue);
+  console.log(context.payload.pull_request.title);
+  console.log(context.payload.pull_request);
   console.log(context);
   console.log("END");
   const resp_label = await github.rest.issues.addLabels({
